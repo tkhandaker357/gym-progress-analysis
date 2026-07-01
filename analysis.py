@@ -37,16 +37,15 @@ def getExerciseNumbers(fileName : str, whichExercise : str) -> list[tuple[str, f
         weightNumbers : list[float] = []
         repNumbers : list[float] = []
         
-        prevLine : str = ""
-        date : str = ""
+        latestDate : str = ""
         for line in f:
-            if (line.find("HT") != -1):
-                date = re.sub(r"[a-zA-Z\(\)\,\? +]", '', prevLine[:prevLine.find(' ')])
-                date = re.sub(r"\.", '/', date)
-            prevLine = line
+            date = re.match(r"^(\d{2}/\d{2}/\d{2})", line)
+            if date != None:
+                latestDate = date.group(1)
+                continue
 
             if (line.find(whichExercise) != -1):
-                dates.append(date)
+                dates.append(latestDate)
 
                 if (line.find("BW") != -1):
                     weightNumbers.append(0.0)
