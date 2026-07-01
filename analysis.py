@@ -4,6 +4,7 @@ import datetime as dt
 import pandas as pd
 import numpy as np
 
+# functions like a macro
 ADMIN_PRIVILEGES = 1
 chosenExercise : str = "None"
 
@@ -26,6 +27,8 @@ def getExerciseName() -> str:
                 if ADMIN_PRIVILEGES == 1:
                     globals()["chosenExercise"] = selection 
                     return selection
+                else:
+                    continue
 
 
 def getDates(filename : str) -> list[str]:
