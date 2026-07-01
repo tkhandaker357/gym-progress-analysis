@@ -4,11 +4,33 @@ import datetime as dt
 import pandas as pd
 import numpy as np
 
-def getHTNumbers(fileName : str) -> list[tuple[str, float, float]]:
-    with open(fileName, "r") as f:
+ADMIN_PRIVILEGES = 1
+chosenExercise : str = "None"
+
+def getExercise() -> str:
+    selection : str = "Invalid"
+    while True:
+        selection = input("Choose an exercise:\n\t(1) Hip Thrust\n\t(2) Bulgarian Split Squat\n\t(3) Romanian Deadlift\n")
+        match selection:
+            case "1" | "Hip Thrust"            | "HT":
+                globals()["chosenExercise"] = "Hip Thrust"
+                return "HT"
+            case "2" | "Bulgarian Split Squat" | "BSS":
+                globals()["chosenExercise"] = "Bulgarian Split Squat"
+                return "BSS"
+            case "3" | "Romanian Deadlift"     | "RDL":
+                globals()["chosenExercise"] ="Romanian Deadlift"
+                return "RDL"
+            case _:
+                # for me to see the graph of any exercise i choose
+                if ADMIN_PRIVILEGES == 1:
+                    globals()["chosenExercise"] = selection 
+                    return selection
+
+
+def getDates(filename : str) -> list[str]:
+    with open(filename, "r") as f:
         dates : list[str] = []
-        weightNumbers : list[float] = []
-        repNumbers : list[float] = []
 
         prevLine : str = ""
         for line in f:
@@ -16,27 +38,38 @@ def getHTNumbers(fileName : str) -> list[tuple[str, float, float]]:
                 date = re.sub(r"[a-zA-Z\(\)\,\? +]", '', prevLine[:prevLine.find(' ')])
                 date = re.sub(r"\.", '/', date)
                 dates.append(date)
-                
-                if (line.find("BW") != -1):
-                    weightNumbers.append(0.0)
-                    repNumbers.append(float(line[line.find("HT x") + 4:line.find('F')].replace('½', '.5')))
-                else:
-                    firstWeightNum = line[: line.find(' ')]
-                    firstWeightNum = re.sub(r"[a-zA-Z\(\)\,\?\n +]", '', firstWeightNum)
-                    weightNumbers.append(float(firstWeightNum))
-
-                    firstRepNum = line[line.find("HT x") + 4:line.find('/')].replace('½', '.5')
-                    firstRepNum = re.sub(r"[a-zA-Z\(\)\,\? +]", '',firstRepNum) 
-                    repNumbers.append(float(firstRepNum))
+            
             prevLine = line
 
-        return [(date, weight, reps) for date, weight, reps in zip(dates, weightNumbers, repNumbers)]
+        return dates
 
-hipThrustProgress = getHTNumbers("logbook.txt")
+
+def getHTNumbers(fileName : str, whichExercise : str = "HT") -> list[tuple[str, float, float]]:
+    with open(fileName, "r") as f:
+        weightNumbers : list[float] = []
+        repNumbers : list[float] = []
+        
+        for line in f:
+                if (line.find(whichExercise + " x") != -1):
+                    if (line.find("BW") != -1):
+                        weightNumbers.append(0.0)
+                        repNumbers.append(float(line[line.find(whichExercise + " x") + 4:line.find('F')].replace('½', '.5')))
+                    else:
+                        firstWeightNum = line[: line.find(' ')]
+                        firstWeightNum = re.sub(r"[a-zA-Z\(\)\,\?\n +]", '', firstWeightNum)
+                        weightNumbers.append(float(firstWeightNum))
+
+                        firstRepNum = line[line.find(whichExercise + " x") + 4:line.find('/')].replace('½', '.5')
+                        firstRepNum = re.sub(r"[a-zA-Z\(\)\,\? +]", '',firstRepNum) 
+                        repNumbers.append(float(firstRepNum))
+
+        return [(date, weight, reps) for date, weight, reps in zip(getDates(fileName), weightNumbers, repNumbers)]
+
+exerciseProgress = getHTNumbers("logbook.txt", getExercise())
 dates = []
 weights = []
 reps = []
-for (date, weightNum, repNum) in hipThrustProgress:
+for (date, weightNum, repNum) in exerciseProgress:
     dates.append(dt.datetime.strptime(date, "%m/%d/%y").date())
     weights.append(weightNum)
     reps.append(repNum)
@@ -65,13 +98,9 @@ for date in dataFrame["Date"]:
     dateToTime.append(i)
     i += 1
 
-# weightRateOfChange = np.gradient(dataFrame["Weight"], dateToTime)
-# thirdAxis = firstAxis.twinx()
-# thirdAxis.plot(dataFrame['Date'], weightRateOfChange, color = "green")
-
 lines_labels = [ax.get_legend_handles_labels() for ax in fig.axes]
 lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
 fig.legend(lines, labels)
 
-plt.title("Hip Thrust Progress")
+plt.title(str(chosenExercise + " Progress"))
 plt.show()
