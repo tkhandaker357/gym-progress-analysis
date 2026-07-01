@@ -49,15 +49,26 @@ def getExerciseNumbers(fileName : str, whichExercise : str) -> list[tuple[str, f
 
                 if (line.find("BW") != -1):
                     weightNumbers.append(0.0)
-                    repNumbers.append(float(line[line.find(" x") + 4:line.find('F')].replace('½', '.5')))
+                    firstRepNum = line[line.find(" x "):]
+                    firstRepNum = firstRepNum[3 : firstRepNum.find('/')].replace('½', '.5')
+                    if (firstRepNum.find(',') != -1):
+                        firstRepNum = firstRepNum[ : firstRepNum.find(',')]
+                    firstRepNum = re.sub(r"[a-zA-Z\(\)\,\?\n +]", '',firstRepNum) 
+                    repNumbers.append(float(firstRepNum))
                 else:
                     firstWeightNum = line[: line.find(' ')]
                     if (firstWeightNum.find('/') != -1):
-                        firstWeightNum = firstWeightNum[: firstWeightNum.find('/')]
+                        firstWeightNum = firstWeightNum[ : firstWeightNum.find('/')]
                     firstWeightNum = re.sub(r"[a-zA-Z\(\)\,\?\n +]", '', firstWeightNum)
                     weightNumbers.append(float(firstWeightNum))
-                    firstRepNum = line[line.find(" x") + 3:line.find('/')].replace('½', '.5')
-                    firstRepNum = re.sub(r"[a-zA-Z\(\)\,\? +]", '',firstRepNum) 
+                    
+                    firstRepNum = line[line.find(" x "):]
+                    firstRepNum = firstRepNum[3 : firstRepNum.find('/')].replace('½', '.5')
+                    if (firstRepNum.find(',') != -1):
+                        firstRepNum = firstRepNum[ : firstRepNum.find(',')]
+                    firstRepNum = re.sub(r"[a-zA-Z\(\)\,\?\n +]", '',firstRepNum) 
+                    print(firstRepNum)
+                    print(latestDate)
                     repNumbers.append(float(firstRepNum))
 
         return [(date, weight, reps) for date, weight, reps in zip(dates, weightNumbers, repNumbers)]
@@ -89,13 +100,15 @@ firstAxis.tick_params(axis='y', labelcolor = "red")
 #   to machine hip thrusts
 
 daysSinceJan_1_1970toFeb9_2025 : float = 20128.5
-firstAxis.vlines(x=daysSinceJan_1_1970toFeb9_2025, ymin=0.0, ymax=600.0, color='orange', \
-                label="Switch from B-Stance to Single Leg", linestyle="--")
+#firstAxis.vlines(x=daysSinceJan_1_1970toFeb9_2025, ymin=0.0, ymax=(weights[-1] + 10), color='orange', \
+#                label="Switch from B-Stance to Single Leg", linestyle="--")
 
 secondAxis = firstAxis.twinx()
 secondAxis.set_ylabel("Reps", color = "blue")
 secondAxis.scatter(dataFrame['Date'], dataFrame['Reps'])
 secondAxis.tick_params(axis='y', labelcolor = "blue")
+
+print(dataFrame['Reps'].max())
 
 dateToTime = []
 i = 1

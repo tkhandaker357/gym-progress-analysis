@@ -107,7 +107,7 @@ skipped calves
 240 HT x 10/10, 9/9
 240 Calves x 16, 11
 100 SLE x 11/11, 8/8
-85 SLC x 8 + 2/8, 10/10, 5
+85 SLC x 8 /+ 2/8, 10/10, 5
 
 new week
 02/07/25 - FRI
@@ -278,7 +278,7 @@ new week
 04/18/25 - FRI
 300 SLHT x 7/7, 7/7
 260 BSS x 5/5
-120 SLC x 5 ??? literally couldn't do 135 or 120 unilaterally so i did it bilaterally
+120 SLC x 5/??? literally couldn't do 135 or 120 unilaterally so i did it bilaterally
 
 04/20/25 - SUN (easter, no time)
 305 SLHT x 7/7, 6/6
@@ -407,7 +407,7 @@ new week
 375 SLHT x 6/6, 5/5
 125 ABD (R/L) x 8/7, 3/3 + 1 iso ????
 170 SLC (bi) x 3, 5
-175 LE (bi) x 10 (pause between 7-8), 3
+175 LE (bi) x 10, 3
 130 LP Calves x 12, 5
 2 sets for each but not enough rest + wtf was the abd???
 Pushups x 8, 2 
@@ -537,7 +537,7 @@ new week
 395 SLHT x 6/6, 5/5
 310 RDL x 6/6, 5/5
 150 ABD x 9/9
-130 LE x 8/8
+130 x 8/8
 110 SLC x 5/5 
 150 Calves x 12
 
@@ -833,7 +833,7 @@ one set bc out of time
 105 Back Ext. x 7, 6, 3
 105 CP x 5/5, 4/4
 
-01/06/25 - TUE
+01/06/26 - TUE
 440 SLHT x 6/6, 4.5/4.5
 250 BSS x 7/7, 5/5
 195 ABD x 6/6, 6/6
@@ -1008,7 +1008,7 @@ new week
 135 SLC x 4.5/4.5, 3.5/3.5
 160 Pulldown x 7/7, 6/6 (meh)
 160 Row x 7/7, 6/6 (meh)
-130 Back Ext. 7, 5.5
+130 Back Ext. x 7, 5.5
 130 CP x 5/5, 4/4
 
 new week
@@ -1101,7 +1101,7 @@ new week
 470 SLHT x 6/6, 5/5 (perfect)
 210 ABD x 6/6 (perfect)
 150 ABD (lean) x 8/8 (awesome)
-215 ADD x 10 + 1
+215 ADD x 10 /+ 1
 
 03/25/26 - WED
 475 SLHT x 5/5, 4/4 (good)
@@ -1290,7 +1290,7 @@ kill yourself
 490 SLHT x 6/6, 6/6 (good)
 340 RDL x 7/7, 6.5/6.5
 250 ABD (bi) x 12
-250 ABD (lean) x 12 (kinda) + 3?
+250 ABD (lean) x 12 (kinda) / 3?
 215 ADD x 11
 
 05/20/26 - WED
