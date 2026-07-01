@@ -30,36 +30,37 @@ def getExerciseName() -> str:
                 else:
                     continue
 
+
 def getExerciseNumbers(fileName : str, whichExercise : str) -> list[tuple[str, float, float]]:
     with open(fileName, "r") as f:
         dates : list[str] = []
         weightNumbers : list[float] = []
         repNumbers : list[float] = []
-
-        currentDate : str | None = None
+        
+        prevLine : str = ""
+        date : str = ""
         for line in f:
-            dateMatch = re.match(r"^(\d{2}/\d{2}/\d{2})", line)
-            if dateMatch:
-                currentDate = dateMatch.group(1)
-                continue
-
-            if currentDate is None:
-                continue
+            if (line.find("HT") != -1):
+                date = re.sub(r"[a-zA-Z\(\)\,\? +]", '', prevLine[:prevLine.find(' ')])
+                date = re.sub(r"\.", '/', date)
+            prevLine = line
 
             if (line.find(whichExercise) != -1):
-                dates.append(currentDate)
-                
+                dates.append(date)
+
                 if (line.find("BW") != -1):
                     weightNumbers.append(0.0)
                     repNumbers.append(float(line[line.find(" x") + 4:line.find('F')].replace('½', '.5')))
                 else:
                     firstWeightNum = line[: line.find(' ')]
+                    if (firstWeightNum.find('/') != -1):
+                        firstWeightNum = firstWeightNum[: firstWeightNum.find('/')]
                     firstWeightNum = re.sub(r"[a-zA-Z\(\)\,\?\n +]", '', firstWeightNum)
                     weightNumbers.append(float(firstWeightNum))
                     firstRepNum = line[line.find(" x") + 3:line.find('/')].replace('½', '.5')
-                    firstRepNum = re.sub(r"[a-zA-Z\(\)\,\? +]", '',firstRepNum)
+                    firstRepNum = re.sub(r"[a-zA-Z\(\)\,\? +]", '',firstRepNum) 
                     repNumbers.append(float(firstRepNum))
-                    
+
         return [(date, weight, reps) for date, weight, reps in zip(dates, weightNumbers, repNumbers)]
 
 exerciseProgress = getExerciseNumbers("logbook.txt", getExerciseName())
