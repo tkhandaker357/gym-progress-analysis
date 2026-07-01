@@ -7,7 +7,7 @@ import numpy as np
 ADMIN_PRIVILEGES = 1
 chosenExercise : str = "None"
 
-def getExercise() -> str:
+def getExerciseName() -> str:
     selection : str = "Invalid"
     while True:
         selection = input("Choose an exercise:\n\t(1) Hip Thrust\n\t(2) Bulgarian Split Squat\n\t(3) Romanian Deadlift\n")
@@ -44,7 +44,7 @@ def getDates(filename : str) -> list[str]:
         return dates
 
 
-def getHTNumbers(fileName : str, whichExercise : str = "HT") -> list[tuple[str, float, float]]:
+def getExerciseNumbers(fileName : str, whichExercise : str = "HT") -> list[tuple[str, float, float]]:
     with open(fileName, "r") as f:
         weightNumbers : list[float] = []
         repNumbers : list[float] = []
@@ -65,7 +65,7 @@ def getHTNumbers(fileName : str, whichExercise : str = "HT") -> list[tuple[str, 
 
         return [(date, weight, reps) for date, weight, reps in zip(getDates(fileName), weightNumbers, repNumbers)]
 
-exerciseProgress = getHTNumbers("logbook.txt", getExercise())
+exerciseProgress = getExerciseNumbers("logbook.txt", getExerciseName())
 dates = []
 weights = []
 reps = []
@@ -102,5 +102,5 @@ lines_labels = [ax.get_legend_handles_labels() for ax in fig.axes]
 lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
 fig.legend(lines, labels)
 
-plt.title(str(chosenExercise + " Progress"))
+plt.title(chosenExercise + " Progress")
 plt.show()
